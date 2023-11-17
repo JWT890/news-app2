@@ -1,12 +1,17 @@
-import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
+import { shallowMount } from '@vue/test-utils';
+import NewsApp from '@/components/NewsApp.vue';
 
-describe('HelloWorld.vue', () => {
-  it('renders props.msg when passed', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      props: { msg }
-    })
-    expect(wrapper.text()).toMatch(msg)
-  })
-})
+describe('NewsApp', () => {
+  it('should fetch news articles on mounted', async () => {
+    const wrapper = shallowMount(NewsApp);
+
+    // Mock the fetchNews function
+    wrapper.vm.fetchNews = jest.fn().mockResolvedValueOnce();
+
+    // Trigger the mounted hook
+    wrapper.vm.$options.mounted.call(wrapper.vm);
+
+    // Assert that fetchNews was called
+    expect(wrapper.vm.fetchNews).toHaveBeenCalled();
+  });
+});
